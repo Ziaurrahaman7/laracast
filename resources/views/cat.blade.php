@@ -7,7 +7,9 @@
     <title>Document</title>
 </head>
 <body>
-    <?=$post?>
-    {{-- {{$post->categorie->name}}; --}}
+    @foreach ($posts as $post )
+    {{$post->categorie->name}};
+    @endforeach
+  
 </body>
 </html>

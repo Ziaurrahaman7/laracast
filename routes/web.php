@@ -1,6 +1,9 @@
 <?php
 
 use App\Models\Post;
+Use App\Models\Categorie;
+use Illuminate\Log\Logger;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Spatie\YamlFrontMatter\YamlFrontMatter;
 
@@ -22,8 +25,15 @@ Route::get('/', function () {
     // $posts = Post::all();
     // // dd($posts);
     // return view('posts',["posts"=>$posts]);
-    $document = YamlFrontMatter::parse(file_get_contents(resource_path("post/post1.html")));
-    dd($document);
+    // $document = YamlFrontMatter::parse(file_get_contents(resource_path("post/post1.html")));
+    // dd($document);
+    \Illuminate\Support\Facades\DB::listen(function($query){
+        // \Illuminate\Support\Facades\Log::info('foo');
+        Logger($query->sql, $query->bindings);
+    });
+    return view('post', [
+        "post"=>Post::all()
+    ]);
 });
 // =================html file load system ===========
 // Route::get('post/{post}', function ($slug) {
@@ -54,4 +64,13 @@ Route::get('post/{post:slug}', function (Post $post) {
      'post'=>$post
  ]);
 });
+
+Route::get('categorie/{categorie:slug}', function (Categorie $categorie) {
+    // return "test";
+    // dd($categorie->post);
+    return view('cat',[
+        // 'posts'=>Categorie::first()->post
+        'posts'=>$categorie->post
+    ]);
+   });
 // =================html file load system end===========
