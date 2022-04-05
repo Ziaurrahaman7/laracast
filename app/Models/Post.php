@@ -14,7 +14,29 @@ class Post extends Model
     // {
     //     return 'slug';
     // }
+    protected $with = ['categorie','author'];
     public function categorie(){
         return $this->belongsTo(Categorie::class);
+    }
+    public function author(){
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function scopeFilter($query, array $filter){
+        $query->when($filter['search'] ?? false, fn ($query, $search)=>
+            $query->where('title', 'like', '%' . $search. '%')
+                    ->orWhere('body', 'like', '%' . $search. '%')
+           );
+        $query->when($filter['categorie'] ?? false, fn ($query, $categorie)=>
+          $query->whereHas('categorie',fn($query)=>
+          $query->where('slug', $categorie)
+          )
+          );
+          $query->when($filter['author'] ?? false, fn ($query, $author)=>
+          $query->whereHas('author',fn($query)=>
+          $query->where('username', $author)
+          )
+          );
+        //    return $query->get();
     }
 }

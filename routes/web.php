@@ -1,7 +1,11 @@
 <?php
 
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\SessionController;
 use App\Models\Post;
 Use App\Models\Categorie;
+use App\Models\User;
 use Illuminate\Log\Logger;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
@@ -21,20 +25,7 @@ use Spatie\YamlFrontMatter\YamlFrontMatter;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-Route::get('/', function () {
-    // $posts = Post::all();
-    // // dd($posts);
-    // return view('posts',["posts"=>$posts]);
-    // $document = YamlFrontMatter::parse(file_get_contents(resource_path("post/post1.html")));
-    // dd($document);
-    \Illuminate\Support\Facades\DB::listen(function($query){
-        // \Illuminate\Support\Facades\Log::info('foo');
-        Logger($query->sql, $query->bindings);
-    });
-    return view('post', [
-        "post"=>Post::all()
-    ]);
-});
+Route::get('/', [PostController::class, 'index']);
 // =================html file load system ===========
 // Route::get('post/{post}', function ($slug) {
 //     // return $slug;
@@ -58,19 +49,13 @@ Route::get('/', function () {
 // });
 
 
-Route::get('post/{post:slug}', function (Post $post) {
- return view('post',[
-    //  'post'=>Post::findOrFail($id)
-     'post'=>$post
- ]);
-});
+Route::get('post/{post:slug}', [PostController::class, 'show']);
+Route::get('categorie/{categorie:slug}', [PostController::class, 'categorie']);
+Route::get('author/{author:username}', [PostController::class, 'author']);
 
-Route::get('categorie/{categorie:slug}', function (Categorie $categorie) {
-    // return "test";
-    // dd($categorie->post);
-    return view('cat',[
-        // 'posts'=>Categorie::first()->post
-        'posts'=>$categorie->post
-    ]);
-   });
-// =================html file load system end===========
+Route::get('register', [RegisterController::class, 'index'])->middleware('guest');
+Route::post('register', [RegisterController::class, 'store'])->middleware('guest');
+
+Route::get('login',[SessionController::class, 'create'])->middleware('guest');
+Route::post('login',[SessionController::class, 'store'])->middleware('guest');
+Route::post('logout',[SessionController::class, 'destroy'])->middleware('auth');;
