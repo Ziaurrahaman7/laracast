@@ -5,7 +5,14 @@
     <p>{{$pt->body}}</p>
     <a href="/">Go Back</a>
     <hr>
+
     @endforeach
+    <x-comment-box/>
+
+@foreach ($comments as $comment )
+<x-post_comment :comment="$comment"/>
+@endforeach
+
   
 </body>
 </html>

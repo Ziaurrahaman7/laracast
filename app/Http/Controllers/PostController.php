@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Categorie;
+use App\Models\Comment;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -22,13 +23,13 @@ class PostController extends Controller
     }
     public function categorie(Categorie $categorie){
         return view('cat',[
-            // 'posts'=>Categorie::first()->post
             'posts'=>$categorie->post
         ]);
     }
     public function author(User $author){
         return view('cat',[
             // 'posts'=>Categorie::first()->post
+            'comments'=>Comment::all(),
             'posts'=>$author->post
         ]);
     }
