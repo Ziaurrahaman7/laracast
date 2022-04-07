@@ -71,6 +71,6 @@ Route::get('ping', function (){
         'server' => 'us14'
     ]);
 
-    $response = $mailchimp->ping->get();
+    $response =  $mailchimp->lists->getList("3662c4a49b");
     dd($response);
 });
