@@ -1,16 +1,19 @@
 <?php
 
-use App\Http\Controllers\PostCommentCntroller;
-use App\Http\Controllers\PostController;
-use App\Http\Controllers\RegisterController;
-use App\Http\Controllers\SessionController;
 use App\Models\Post;
-Use App\Models\Categorie;
 use App\Models\User;
 use Illuminate\Log\Logger;
+Use App\Models\Categorie;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\SessionController;
 use Spatie\YamlFrontMatter\YamlFrontMatter;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\PostCommentCntroller;
+use App\Http\Controllers\SubscriberController;
+use App\Services\Newslatter;
+use Illuminate\Validation\ValidationException;
 
 /*
 |--------------------------------------------------------------------------
@@ -63,14 +66,6 @@ Route::get('login',[SessionController::class, 'create'])->middleware('guest');
 Route::post('login',[SessionController::class, 'store'])->middleware('guest');
 Route::post('logout',[SessionController::class, 'destroy'])->middleware('auth');
 
-Route::get('ping', function (){
-    $mailchimp = new \MailchimpMarketing\ApiClient;
+Route::post('newslatter', SubscriberController::class);
 
-    $mailchimp->setConfig([
-        'apiKey' => config('services.mailchimp.key'),
-        'server' => 'us14'
-    ]);
 
-    $response =  $mailchimp->lists->getList("3662c4a49b");
-    dd($response);
-});
