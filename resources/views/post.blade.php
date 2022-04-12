@@ -1,7 +1,8 @@
 @include('post.header')
-  
+
         @foreach ($post as $pt )
         <h3>{{$pt->title}}</h3>
+        <img src="{{asset('storage/'.$pt->image)}}" alt="">
         <p> <a href="/author/{{$pt->author->username}}">{{$pt->author->name}}</a> in <a href="/categorie/{{$pt->categorie->slug}}">{{$pt->excrept}}</a></p>
         <p>{{$pt->body}}</p>
         <a href="/">Go Back</a>

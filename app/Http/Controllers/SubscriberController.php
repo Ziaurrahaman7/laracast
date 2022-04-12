@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\Newslatter;
+use App\Services\Newsletter;
 use Illuminate\Http\Request;
+use Exception;
 use Illuminate\Validation\ValidationException;
 
 class SubscriberController extends Controller
 {
-    public function __invoke(Newslatter $newslatter)
+    public function __invoke(Newsletter $newslatter)
     {
-        dd($newslatter);
+        // dd($newslatter);
             request()->validate(['email'=>'required|email']);
         
            try{
