@@ -1,2 +1,2 @@
-@props(['name'])
-<input class="btn btn-info mt-3" type="submit" vlue="{{$name}}}">
+
+<button type="submit" class="btn btn-info mt-3">{{$slot}}</button>

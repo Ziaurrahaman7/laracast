@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminPostController;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Log\Logger;
@@ -68,5 +69,10 @@ Route::post('logout',[SessionController::class, 'destroy'])->middleware('auth');
 
 Route::post('newslatter', SubscriberController::class);
 
+Route::get('post/admin/list', [AdminPostController::class,'index'])->middleware('admin');
+Route::get('post/admin/{post}/edit', [AdminPostController::class,'edit'])->middleware('admin');
+Route::patch('post/admin/{post}', [AdminPostController::class,'update'])->middleware('admin');
+Route::delete('post/admin/{post}', [AdminPostController::class,'destroy'])->middleware('admin');
 Route::get('post/admin/create', [PostController::class,'create'])->middleware('admin');
 Route::post('post/admin/create', [PostController::class,'store'])->middleware('admin');
+
